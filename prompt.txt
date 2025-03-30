@@ -1,0 +1,1 @@
+please write me the most convoluted, not intuitive, long, abstract way of generating a random number in javascript. You can use some weird language features and stuff. Make it into one html file. Make sure for it to be schizo and stuff

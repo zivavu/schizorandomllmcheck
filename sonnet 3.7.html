@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Unnecessarily Convoluted Random Number Generator</title>
+		<style>
+			body {
+				font-family: monospace;
+				background-color: #001;
+				color: #0f0;
+				padding: 20px;
+				line-height: 1.6;
+			}
+			#output {
+				border: 1px solid #0f0;
+				padding: 10px;
+				margin-top: 20px;
+				min-height: 100px;
+				white-space: pre-wrap;
+			}
+			button {
+				background-color: #003;
+				color: #0f0;
+				border: 1px solid #0f0;
+				padding: 10px 20px;
+				cursor: pointer;
+			}
+		</style>
+	</head>
+	<body>
+		<h1>Hyper-Abstract Quantum-Inspired Entropy Materializer</h1>
+		<p>
+			A perfectly simple solution to generating randomness through cascading
+			reality distortions
+		</p>
+		<button id="generateBtn">Collapse Probability Waveform</button>
+		<div id="output"></div>
+
+		<script>
+			// Type definitions (as TSDoc comments)
+			/**
+			 * @typedef {Object} EntangledParticle
+			 * @property {number} spin
+			 * @property {Function} collapse
+			 */
+
+			/**
+			 * @typedef {Object} RealityMatrix
+			 * @property {Symbol} dimensionKey
+			 * @property {WeakMap} quantumState
+			 */
+
+			/**
+			 * A cosmic constant determining the nature of our universe
+			 * @type {Symbol}
+			 */
+			const UNIVERSAL_CONSTANT = Symbol('ℵ₀');
+
+			/**
+			 * Hyper-dimensional probability manifold
+			 * @type {WeakMap}
+			 */
+			const dimensionalPocketUniverse = new WeakMap();
+
+			/**
+			 * Chronological reversal field
+			 * @type {Set<Symbol>}
+			 */
+			const temporalAnomalyDetector = new Set();
+
+			/**
+			 * Initializes the metacortical resonance field
+			 * @returns {RealityMatrix}
+			 */
+			function createRealityMatrix() {
+				const dimensionKey = Symbol('η-dimension');
+
+				/**
+				 * @type {Object[]}
+				 */
+				const quantumFluctuations = Array.from({ length: 17 }, function () {
+					return Object.create(null);
+				});
+
+				const memoryLeakPreventionSystem = {};
+
+				dimensionalPocketUniverse.set(
+					memoryLeakPreventionSystem,
+					quantumFluctuations
+				);
+				temporalAnomalyDetector.add(dimensionKey);
+
+				return {
+					dimensionKey: dimensionKey,
+					quantumState: dimensionalPocketUniverse,
+				};
+			}
+
+			/**
+			 * Creates an entangled particle pair
+			 * @param {RealityMatrix} realityMatrix
+			 * @returns {[EntangledParticle, EntangledParticle]}
+			 */
+			function createEntangledParticlePair(realityMatrix) {
+				/**
+				 * Schrödinger uncertainty wrapper
+				 * @type {Proxy}
+				 */
+				const uncertaintyPrinciple = new Proxy(
+					{},
+					{
+						get: function (target, prop) {
+							if (prop === Symbol.toPrimitive) {
+								return function () {
+									return Math.floor(Date.now() / 1000) % 2 === 0 ? 1 : 0;
+								};
+							}
+							return undefined;
+						},
+					}
+				);
+
+				/**
+				 * Quantum observation function
+				 * @param {number} spin
+				 * @returns {Function}
+				 */
+				function createObserver(spin) {
+					const observationContext = {
+						spinHistory: [],
+						lastMeasurement: -Infinity,
+					};
+
+					return function (forceCollapse) {
+						if (
+							!forceCollapse &&
+							observationContext.lastMeasurement > Date.now() - 100
+						) {
+							return (
+								observationContext.spinHistory[
+									observationContext.spinHistory.length - 1
+								] || 0
+							);
+						}
+
+						const observation = spin ^ Number(uncertaintyPrinciple);
+						observationContext.spinHistory.push(observation);
+						observationContext.lastMeasurement = Date.now();
+
+						return observation;
+					};
+				}
+
+				const spinUp = createObserver(1);
+				const spinDown = createObserver(0);
+
+				return [
+					{ spin: 1, collapse: spinUp },
+					{ spin: 0, collapse: spinDown },
+				];
+			}
+
+			/**
+			 * Computes Feigenbaum constants through bifurcation
+			 * @param {number} iterations
+			 * @param {number} seed
+			 * @returns {number[]}
+			 */
+			function computeFeigenbaumCascade(iterations, seed) {
+				/**
+				 * @type {number[]}
+				 */
+				const sequence = [seed];
+
+				/**
+				 * Applies the logistic map
+				 * @type {number}
+				 */
+				const r = 3.9;
+
+				/**
+				 * @param {number} x
+				 * @returns {number}
+				 */
+				function logisticMap(x) {
+					return r * x * (1 - x);
+				}
+
+				for (let i = 1; i < iterations; i++) {
+					sequence.push(logisticMap(sequence[i - 1]));
+				}
+
+				return sequence;
+			}
+
+			/**
+			 * @type {Generator}
+			 */
+			const infiniteSequenceGenerator = (function* () {
+				const primeSieve = [];
+				let num = 2;
+
+				while (true) {
+					let isPrime = true;
+					const sqrt = Math.sqrt(num);
+
+					for (let i = 0; primeSieve[i] <= sqrt; i++) {
+						if (num % primeSieve[i] === 0) {
+							isPrime = false;
+							break;
+						}
+					}
+
+					if (isPrime) {
+						primeSieve.push(num);
+						yield num;
+					}
+
+					num++;
+				}
+			})();
+
+			/**
+			 * @param {number} depth
+			 * @returns {Function}
+			 */
+			function createRecursiveChaosTheoryApplicator(depth) {
+				/**
+				 * @param {number} currentDepth
+				 * @param {number} accumulator
+				 * @returns {number}
+				 */
+				function chaosApplicator(currentDepth, accumulator) {
+					if (currentDepth <= 0) {
+						return accumulator;
+					}
+
+					const nextValue =
+						accumulator ^
+						((accumulator << 5) +
+							(accumulator >> 4) +
+							((accumulator & 0xfffaffff) | 0x00050000));
+
+					return chaosApplicator(currentDepth - 1, nextValue);
+				}
+
+				return function (seed) {
+					return chaosApplicator(depth, seed);
+				};
+			}
+
+			/**
+			 * Performs Galois field operations in GF(2^8)
+			 * @param {number} a
+			 * @param {number} b
+			 * @returns {number}
+			 */
+			function galoisFieldMultiply(a, b) {
+				let p = 0;
+
+				for (let i = 0; i < 8; i++) {
+					if ((b & 1) !== 0) {
+						p ^= a;
+					}
+
+					const highBitSet = (a & 0x80) !== 0;
+					a <<= 1;
+
+					if (highBitSet) {
+						a ^= 0x1b; // Reduction polynomial for GF(2^8)
+					}
+
+					b >>= 1;
+				}
+
+				return p & 0xff;
+			}
+
+			/**
+			 * THE GRAND UNIFIED RANDOM NUMBER GENERATOR
+			 * @param {number} min
+			 * @param {number} max
+			 * @returns {number}
+			 */
+			function generateCOSMICRandomNumber(min, max) {
+				// PHASE 1: Initialize universal constants
+				const realityMatrix = createRealityMatrix();
+
+				// PHASE 2: Establish quantum entanglement
+				const [particleA, particleB] =
+					createEntangledParticlePair(realityMatrix);
+
+				// PHASE 3: Generate initial entropy through chaos theory
+				const chaoticSeed = Date.now() & 0xffffffff;
+				const chaosApplicator = createRecursiveChaosTheoryApplicator(5);
+				const entropyPool = chaosApplicator(chaoticSeed);
+
+				// PHASE 4: Prime factorization entropy enhancement
+				const primeProductAccumulator = (function () {
+					let accumulator = 1;
+
+					for (let i = 0; i < 7; i++) {
+						const nextPrime = infiniteSequenceGenerator.next().value;
+						accumulator = (accumulator * nextPrime) % 0xffffffff;
+					}
+
+					return accumulator;
+				})();
+
+				// PHASE 5: Feigenbaum cascade for chaotic dynamics
+				const feigenbaumSequence = computeFeigenbaumCascade(
+					10,
+					(entropyPool ^ primeProductAccumulator) / 0xffffffff
+				);
+
+				// PHASE 6: Collapse quantum wavefunction
+				const observationResult =
+					particleA.collapse(true) ^ particleB.collapse(true);
+
+				// PHASE 7: Self-modifying Galois field
+				/**
+				 * @type {number[]}
+				 */
+				const galoisOutput = [];
+
+				for (let i = 0; i < feigenbaumSequence.length; i++) {
+					const feigenValue = Math.floor(feigenbaumSequence[i] * 255);
+					const galoisResult = galoisFieldMultiply(
+						feigenValue,
+						(entropyPool >> (i * 3)) & 0xff
+					);
+					galoisOutput.push(galoisResult);
+				}
+
+				// PHASE 8: Reality collapse and normalization
+				const rawRandomValue = (function () {
+					const tempAccumulator = galoisOutput.reduce(function (acc, val, idx) {
+						return (acc + val * (idx + 1)) % 0xffffffff;
+					}, primeProductAccumulator ^ entropyPool);
+
+					// Make sure it's positive
+					return Math.abs(tempAccumulator);
+				})();
+
+				// PHASE 9: Final mapping to desired range
+				return Math.floor(min + (rawRandomValue % (max - min + 1)));
+			}
+
+			// User interface handler
+			document
+				.getElementById('generateBtn')
+				.addEventListener('click', function () {
+					const outputDiv = document.getElementById('output');
+
+					// Clear previous output
+					outputDiv.innerHTML = 'CALCULATING QUANTUM FLUCTUATIONS...\n';
+
+					// Simulate complex calculations
+					setTimeout(function () {
+						outputDiv.innerHTML += 'ESTABLISHING REALITY MATRIX...\n';
+
+						setTimeout(function () {
+							outputDiv.innerHTML += 'ENTANGLING PROBABILITY PARTICLES...\n';
+
+							setTimeout(function () {
+								outputDiv.innerHTML += 'APPLYING CHAOS THEORY ALGORITHMS...\n';
+
+								setTimeout(function () {
+									const randomNumber = generateCOSMICRandomNumber(1, 100);
+									outputDiv.innerHTML += `\nYOUR UNIVERSAL CONSTANT: ${randomNumber}\n`;
+									outputDiv.innerHTML +=
+										'\nWARNING: This number was determined through quantum probability collapse and may have altered adjacent realities.';
+								}, 600);
+							}, 400);
+						}, 300);
+					}, 200);
+				});
+		</script>
+	</body>
+</html>
