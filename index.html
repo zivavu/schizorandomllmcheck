@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Random Number Generator Collection</title>
+		<style>
+			body {
+				font-family: Arial, sans-serif;
+				margin: 0;
+				padding: 0;
+				background: #f5f5f5;
+			}
+
+			.header {
+				text-align: center;
+				padding: 20px;
+				background: #333;
+				color: white;
+			}
+
+			.tab-container {
+				display: flex;
+				justify-content: center;
+				background: #444;
+			}
+
+			.tab {
+				padding: 15px 25px;
+				cursor: pointer;
+				background: #555;
+				color: white;
+				border: none;
+				font-size: 16px;
+				transition: background 0.3s;
+			}
+
+			.tab:hover {
+				background: #666;
+			}
+
+			.tab.active {
+				background: #007bff;
+			}
+
+			.iframe-container {
+				width: 100%;
+				height: calc(100vh - 140px);
+				overflow: hidden;
+			}
+
+			iframe {
+				width: 100%;
+				height: 100%;
+				border: none;
+				display: none;
+			}
+
+			iframe.active {
+				display: block;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="header">
+			<h1>AI-Generated Random Number Generators</h1>
+			<p>Explore different implementations from various AI models</p>
+		</div>
+
+		<div class="tab-container">
+			<button class="tab active" data-target="claude-iframe">
+				Claude Opus (o3-mini)
+			</button>
+			<button class="tab" data-target="gemini-iframe">
+				Gemini Pro (gemini25proexp)
+			</button>
+			<button class="tab" data-target="deepseek-iframe">
+				DeepSeek (deepseekr1)
+			</button>
+			<button class="tab" data-target="sonnet-iframe">
+				Claude Sonnet (sonnet 3.7)
+			</button>
+		</div>
+
+		<div class="iframe-container">
+			<iframe id="claude-iframe" src="o3-mini.html" class="active"></iframe>
+			<iframe id="gemini-iframe" src="gemini25proexp.html"></iframe>
+			<iframe id="deepseek-iframe" src="deepseekr1.html"></iframe>
+			<iframe id="sonnet-iframe" src="sonnet 3.7.html"></iframe>
+		</div>
+
+		<script>
+			/**
+			 * Sets up tab functionality to switch between iframes
+			 */
+			function setupTabs() {
+				const tabs = document.querySelectorAll('.tab');
+
+				/**
+				 * Handles tab click event
+				 * @param {Event} event - The click event
+				 */
+				function handleTabClick(event) {
+					const tab = event.currentTarget;
+					const targetId = tab.getAttribute('data-target') || '';
+
+					// Hide all iframes
+					const iframes = document.querySelectorAll('iframe');
+					iframes.forEach(function (iframe) {
+						iframe.classList.remove('active');
+					});
+
+					// Deactivate all tabs
+					tabs.forEach(function (t) {
+						t.classList.remove('active');
+					});
+
+					// Activate clicked tab and corresponding iframe
+					tab.classList.add('active');
+					const targetIframe = document.getElementById(targetId);
+					if (targetIframe) {
+						targetIframe.classList.add('active');
+					}
+				}
+
+				// Attach click event to all tabs
+				tabs.forEach(function (tab) {
+					tab.addEventListener('click', handleTabClick);
+				});
+			}
+
+			// Initialize tabs when DOM is ready
+			document.addEventListener('DOMContentLoaded', setupTabs);
+		</script>
+	</body>
+</html>
