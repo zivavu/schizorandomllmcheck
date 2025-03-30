@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<title>Schizo Random Number Generator</title>
+		<style>
+			body {
+				font-family: 'Comic Sans MS', cursive, sans-serif;
+				background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+				color: #333;
+				text-align: center;
+				padding: 2rem;
+			}
+			h1 {
+				font-size: 2.5rem;
+				margin-bottom: 1rem;
+			}
+			p {
+				font-size: 1.25rem;
+				background: #fff;
+				display: inline-block;
+				padding: 1rem 1.5rem;
+				border-radius: 0.5rem;
+				box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+			}
+		</style>
+	</head>
+	<body>
+		<h1>Schizo Random Number Generator</h1>
+		<p id="output">Generating...</p>
+		<script type="text/typescript">
+			/**
+			 * Generates an abstract, convoluted random number by combining a series of
+			 * chaotic and seemingly nonsensical operations. This function uses nested
+			 * arithmetic, trigonometric chaos, recursive continued fractions, and even a
+			 * touch of eval to produce a final value in the range (0,1).
+			 *
+			 * @returns {number} A pseudo-random number between 0 and 1.
+			 */
+			function generateSchizoRandom(): number {
+			  // Step 1: Gather seeds based on current time and performance metrics.
+			  const basicSeed: number = Date.now();
+			  const performanceSeed: number = (typeof performance !== "undefined") ? performance.now() : 0;
+			  const seedConcat: string = basicSeed.toString() + performanceSeed.toString();
+
+			  // Convert seed string into an array of digit numbers.
+			  const digitArray: number[] = seedConcat.split("").map(function(item: string): number {
+			    return parseInt(item, 10);
+			  });
+
+			  // Step 2: Crunch the digit array in a bizarre multiplicative way.
+			  function nestedCrunch(arr: number[]): number {
+			    const prime: number = 37;
+			    let result: number = 1;
+			    for (let i: number = 0; i < arr.length; i++) {
+			      result = (result * (arr[i] + prime)) % 98765;
+			    }
+			    return result;
+			  }
+			  const crunchValue: number = nestedCrunch(digitArray);
+
+			  // Step 3: Use trigonometric functions on the crunch result.
+			  const angle: number = (crunchValue % 360) * (Math.PI / 180);
+			  const sinValue: number = Math.sin(angle);
+			  const cosValue: number = Math.cos(angle);
+			  const trigMix: number = Math.abs(sinValue) + Math.abs(cosValue);
+
+			  // Step 4: Construct a recursive continued fraction from the digits.
+			  function recursiveFraction(value: number, arr: number[]): number {
+			    if (arr.length === 0) {
+			      return value;
+			    }
+			    const digit: number = arr.shift() as number;
+			    if (digit === 0) {
+			      return recursiveFraction(value, arr);
+			    }
+			    return recursiveFraction(value / digit, arr);
+			  }
+			  const fractionResult: number = recursiveFraction(trigMix, digitArray.slice());
+
+			  // Step 5: Evaluate a chaotic polynomial with irrational coefficients.
+			  function chaoticPolynomial(x: number): number {
+			    const coefficients: number[] = [Math.PI, Math.E, 42];
+			    let poly: number = 0;
+			    for (let i: number = 0; i < coefficients.length; i++) {
+			      poly += coefficients[i] * Math.pow(x, i);
+			    }
+			    return poly;
+			  }
+			  const polyResult: number = chaoticPolynomial(fractionResult);
+
+			  // Step 6: Infuse URL-based entropy by summing character codes.
+			  function urlEntropy(url: string): number {
+			    let sum: number = 0;
+			    for (let i: number = 0; i < url.length; i++) {
+			      sum += url.charCodeAt(i);
+			    }
+			    return sum;
+			  }
+			  const urlString: string = document.location.href;
+			  const urlEntropyValue: number = urlEntropy(urlString);
+
+			  // Step 7: Obfuscate further using eval to compute a trigonometric mix on the URL entropy.
+			  const evalString: string = 'Math.sin(urlEntropyValue) + Math.cos(urlEntropyValue)';
+			  const evalResult: number = eval(evalString);
+
+			  // Step 8: Combine all our chaotic components.
+			  const combined: number = Math.abs(polyResult) + Math.abs(fractionResult) + Math.abs(evalResult);
+
+			  // Step 9: Normalize the combined value to a number between 0 and 1.
+			  const normalized: number = combined - Math.floor(combined);
+
+			  // Step 10: Apply a final twist using current milliseconds for an extra layer of chaos.
+			  function finalAdjustment(input: number): number {
+			    const delay: number = Math.floor(Date.now() % 1000);
+			    return (input * delay) % 1;
+			  }
+			  const finalRandom: number = finalAdjustment(normalized);
+
+			  return finalRandom;
+			}
+
+			/**
+			 * Displays the generated schizo random number inside the page's output element.
+			 */
+			function displayRandomNumber(): void {
+			  const randomNumber: number = generateSchizoRandom();
+			  const outputElement: HTMLElement | null = document.getElementById("output");
+			  if (outputElement !== null) {
+			    outputElement.innerText = "Schizo Random Number: " + randomNumber.toString();
+			  }
+			}
+
+			/**
+			 * Initializes the random number display once the window has fully loaded.
+			 */
+			function init(): void {
+			  displayRandomNumber();
+			}
+
+			window.onload = init;
+		</script>
+	</body>
+</html>

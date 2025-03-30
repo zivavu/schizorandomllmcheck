@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Abstract Entropy Generation</title>
+		<style>
+			body {
+				font-family: sans-serif;
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+				padding-top: 50px;
+			}
+			#output {
+				margin-top: 20px;
+				font-size: 1.5em;
+				font-weight: bold;
+			}
+			button {
+				padding: 10px 20px;
+				font-size: 1em;
+				cursor: pointer;
+			}
+		</style>
+	</head>
+	<body>
+		<h1>The Unfathomable Number Generator</h1>
+		<p>Click the button to invoke a process beyond conventional randomness.</p>
+		<button id="generateButton">Conjure Entropy</button>
+		<div id="output">Result will appear here...</div>
+
+		<script>
+			/** @type {HTMLButtonElement | null} */
+			const generateButton = document.getElementById('generateButton');
+			/** @type {HTMLElement | null} */
+			const outputDiv = document.getElementById('output');
+
+			// Configuration Object - Holds arcane constants and limits
+			const CONFIG = {
+				CRYPTO_BYTE_LENGTH: 4, // How many raw bytes of "true" randomness to mangle
+				RECURSION_DEPTH_FACTOR: 8, // How deep the chaotic recursion should go, relative to byte length
+				INITIAL_SEED_MODIFIER: 0xdeadbeef, // An arbitrary starting point for our journey
+				PRIME_MODULO_1: 982451653, // A large prime number for final processing
+				PRIME_MODULO_2: 104729, // Another prime, just because
+				TARGET_RANGE_MAX: 1000, // The desired upper bound (exclusive) of the final number
+			};
+
+			/**
+			 * Phase 1: Gather raw materials from the digital aether.
+			 * @returns {{timeSeed: number, cryptoSeed: Uint8Array} | null} Seeds or null if crypto fails.
+			 */
+			function acquireInitialSeeds() {
+				try {
+					// High-resolution timestamp, capturing a fleeting moment
+					const timeSeed = performance.now();
+					// Cryptographically secure random values - a glimpse of true chaos
+					const cryptoSeed = new Uint8Array(CONFIG.CRYPTO_BYTE_LENGTH);
+					window.crypto.getRandomValues(cryptoSeed);
+					return { timeSeed, cryptoSeed };
+				} catch (error) {
+					console.error('Cryptographic entropy source unavailable:', error);
+					if (outputDiv) {
+						outputDiv.textContent =
+							'Error: Cannot access secure random source.';
+					}
+					return null;
+				}
+			}
+
+			/**
+			 * Phase 2: Recursive Chaotic Accumulation.
+			 * This function folds entropy upon itself in a recursive dance.
+			 * @param {number} accumulator - The current state of accumulated chaos.
+			 * @param {number} depth - Remaining levels of recursion.
+			 * @param {number} timeBits - Integer representation of the time seed.
+			 * @param {Uint8Array} cryptoBytes - The raw crypto seed bytes.
+			 * @returns {number} The result of the recursive folding.
+			 */
+			function chaoticAccumulator(accumulator, depth, timeBits, cryptoBytes) {
+				// Base case: When the recursion unwinds
+				if (depth <= 0) {
+					return accumulator ^ timeBits; // Final mix
+				}
+
+				// Select a byte from cryptoSeed based on current depth
+				const cryptoIndex = depth % cryptoBytes.length;
+				const cryptoByte = cryptoBytes[cryptoIndex];
+
+				// Perform non-linear mixing operations
+				// Combine accumulator, time bits, and a crypto byte using bitwise operations
+				let newAccumulator = (accumulator << 5) | (accumulator >>> 27); // Rotate left
+				newAccumulator ^= cryptoByte; // XOR with crypto byte
+				newAccumulator += timeBits & 0xff; // Add lower bits of time
+				newAccumulator ^= depth * 13; // Mix in depth
+
+				// Ensure the accumulator stays within JavaScript's safe integer range
+				// (Though bitwise ops treat it as 32-bit anyway)
+				newAccumulator = newAccumulator | 0; // Force to 32-bit integer
+
+				// Recurse deeper into the chaos
+				return chaoticAccumulator(
+					newAccumulator,
+					depth - 1,
+					timeBits >>> 1,
+					cryptoBytes
+				);
+			}
+
+			/**
+			 * Phase 3: Interleaving and Seeding the Chaos.
+			 * Converts seeds to strings and uses their structure to initiate the recursive process.
+			 * @param {number} timeSeed - The high-resolution timestamp.
+			 * @param {Uint8Array} cryptoSeed - The raw crypto bytes.
+			 * @returns {number} An intermediate chaotic value.
+			 */
+			function interleaveAndSeed(timeSeed, cryptoSeed) {
+				// Convert seeds to hexadecimal strings for character manipulation
+				const timeString = Math.floor(timeSeed * 1000).toString(16); // More digits
+				const cryptoString = Array.from(cryptoSeed)
+					.map((b) => b.toString(16).padStart(2, '0'))
+					.join('');
+
+				// Interleave the strings in a peculiar way
+				let interleaved = '';
+				const maxLength = Math.max(timeString.length, cryptoString.length);
+				for (let i = 0; i < maxLength; i++) {
+					if (i < timeString.length) interleaved += timeString[i];
+					if (i < cryptoString.length) interleaved += cryptoString[i];
+				}
+
+				// Use character codes from the interleaved string to feed the accumulator
+				let initialAccumulator = CONFIG.INITIAL_SEED_MODIFIER;
+				for (let i = 0; i < interleaved.length; i++) {
+					initialAccumulator ^= interleaved.charCodeAt(i) << i % 24; // Shift varies
+					initialAccumulator = initialAccumulator | 0; // Keep as 32-bit int
+				}
+
+				const timeBits = Math.floor(timeSeed) | 0; // Integer part of time
+				const recursionDepth =
+					CONFIG.RECURSION_DEPTH_FACTOR * cryptoSeed.length;
+
+				// Start the recursive chaotic accumulation
+				return chaoticAccumulator(
+					initialAccumulator,
+					recursionDepth,
+					timeBits,
+					cryptoSeed
+				);
+			}
+
+			/**
+			 * Phase 4: Final Transformation and Normalization.
+			 * Takes the chaotic result and attempts to constrain it predictably (sort of).
+			 * @param {number} chaoticValue - The result from the recursive accumulator.
+			 * @param {number} timeSeed - Used again for final modulation.
+			 * @returns {number} The final pseudo-random number in the desired range.
+			 */
+			function finalizeEntropy(chaoticValue, timeSeed) {
+				// Ensure the value is positive before modulo operations
+				let finalValue = Math.abs(chaoticValue);
+
+				// Modulo by large primes, influenced by the original time seed
+				const timeModifier = (Math.floor(timeSeed) % 100) + 1; // Small modifier from time
+				finalValue = (finalValue * timeModifier) % CONFIG.PRIME_MODULO_1;
+				finalValue =
+					(finalValue + Math.floor(timeSeed >> 8)) % CONFIG.PRIME_MODULO_2; // Add shifted time bits
+
+				// Normalize to the target range [0, TARGET_RANGE_MAX)
+				finalValue = finalValue % CONFIG.TARGET_RANGE_MAX;
+
+				return finalValue;
+			}
+
+			/**
+			 * Main Orchestration Function: Ties all phases together.
+			 */
+			function generateAbstractPseudoEntropy() {
+				if (!outputDiv) return; // Guard against missing element
+
+				outputDiv.textContent = 'Conjuring...';
+
+				// Use setTimeout to allow the UI to update before computation
+				setTimeout(function () {
+					// Phase 1
+					const seeds = acquireInitialSeeds();
+					if (!seeds) {
+						// Error already handled in acquireInitialSeeds
+						return;
+					}
+					const { timeSeed, cryptoSeed } = seeds;
+
+					// Phase 2 & 3
+					const chaoticValue = interleaveAndSeed(timeSeed, cryptoSeed);
+
+					// Phase 4
+					const finalNumber = finalizeEntropy(chaoticValue, timeSeed);
+
+					// Display the result
+					outputDiv.textContent = `Entropy Manifested: ${finalNumber}`;
+				}, 10); // Small delay
+			}
+
+			// Event Listener: Trigger the process on button click
+			if (generateButton) {
+				generateButton.addEventListener('click', generateAbstractPseudoEntropy);
+			} else {
+				console.error('Generate button not found!');
+				if (outputDiv) {
+					outputDiv.textContent = 'Error: Initialization failed.';
+				}
+			}
+		</script>
+	</body>
+</html>
